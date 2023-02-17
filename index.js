@@ -31,6 +31,47 @@ const kmToMiles = (kilometers) => {
   return miles
 }
 
+const speedTimeToDistance = (speed, time) => {
+  let timeInSeconds = 0
+
+  if (time.hasOwnProperty('seconds')) {
+    timeInSeconds += time.seconds
+  }
+
+  if (time.hasOwnProperty('minutes')) {
+    timeInSeconds += time.minutes * 60
+  }
+
+  if (time.hasOwnProperty('hours')) {
+    timeInSeconds += time.hours * 3600
+  }
+
+  if (speed.hasOwnProperty('kph')) {
+    const distanceInKm = speed.kph * (timeInSeconds / 3600)
+    return distanceInKm
+  }
+
+  if (speed.hasOwnProperty('mpk')) {
+    const distanceInKm = (1 / speed.mpk) * (timeInSeconds / 60)
+    return distanceInKm
+  }
+
+  throw new Error('Invalid input')
+}
+
+const speedDistanceToTime = ({ kph, mpk }, distance) => {
+  if (kph !== undefined) {
+    const timeInHours = distance / kph
+    const minutes = timeInHours * 60
+    return { minutes }
+  } else if (mpk !== undefined) {
+    const timeInMinutes = mpk * distance
+    return { minutes: timeInMinutes }
+  } else {
+    throw new Error('Please provide either kph or mpk.')
+  }
+}
+
 module.exports = {
   kilometersPerHourToMinutesPerKilometer,
   kpuToMpk,
@@ -38,6 +79,8 @@ module.exports = {
   mpkToKpu,
   timeUnitsToTimeUnitsConverter,
   kmToMiles,
+  speedTimeToDistance,
+  speedDistanceToTime,
 }
 
 // Helpers

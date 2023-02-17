@@ -26,12 +26,18 @@ const timeUnitsToTimeUnitsConverter = (
   return formatSeconds(totalSeconds, outputUnits)
 }
 
+const kmToMiles = (kilometers) => {
+  const miles = kilometers * 0.621371192
+  return miles
+}
+
 module.exports = {
   kilometersPerHourToMinutesPerKilometer,
   kpuToMpk,
   minutesPerKilometerToKilometersPerHour,
   mpkToKpu,
   timeUnitsToTimeUnitsConverter,
+  kmToMiles,
 }
 
 // Helpers
